@@ -36,7 +36,7 @@ const rl = readline.createInterface({
 
 })();
 
-setTimeout(async () => {
+setInterval(async () => {
   if (!ready) return;
 
   try {
@@ -48,13 +48,13 @@ setTimeout(async () => {
     console.log('Failed to refresh token...');
     console.log(e);
   }
-}, 1000 * 60 * 10);
+}, 1000 * 60 * 40);
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-setTimeout(async () => {
+setInterval(async () => {
   if (!ready) return;
 
   try {
@@ -75,9 +75,9 @@ setTimeout(async () => {
         'Content-Type': 'application/json'
       }
     });
-    console.log(`code: ${res.code}`);
+    console.log(`data: ${res.data}`);
 
-    await sleep(60 * 1000);
+    await sleep(2 * 60 * 1000);
 
     console.log('Try to turn on dehumidifier');
     const res2 = await axios.post(`https://api.ecobee.com/1/thermostat?format=json`, {
@@ -96,10 +96,10 @@ setTimeout(async () => {
         'Content-Type': 'application/json'
       }
     });
-    console.log(`code: ${res2.code}`);
+    console.log(`code: ${res2.data}`);
 
   } catch (e) {
     console.log('Failed to turn off dehumidifier...');
     console.log(e);
   }
-}, 1000 * 60 * 10);
+}, 1000 * 60 * 30);

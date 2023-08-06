@@ -1,6 +1,6 @@
 # Ecobee Dehumidifier Controller
 
-A simple script to automatically turn ON/OFF EcoBi's dehumidifier periodically. Turn off the dehumidifier every **10 minutes, wait for 1 minute**, and then turn it on again.
+A simple script to automatically turn ON/OFF EcoBi's dehumidifier periodically. Turn off the dehumidifier every **30 minutes, wait for 2 minute**, and then turn it on again.
 
 ## Getting Started
 
