@@ -26,6 +26,7 @@ const rl = readline.createInterface({
         ready = true;
         console.log('Token OK! Ready!')
       } else {
+        console.log('terminate...')
         return;
       }
     });
