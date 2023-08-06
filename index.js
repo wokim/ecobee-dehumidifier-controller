@@ -18,7 +18,7 @@ const rl = readline.createInterface({
 
     rl.question(`Your ecobee PIN is ${res.data.ecobeePin}. Have you completed the input? (yes/no): `, async (answer) => {
       if (answer.toLowerCase() === 'yes') {
-        const code = res.data.ecobeePin;
+        const code = res.data.code;
         console.log('Request access token...');
         const xxx = await axios.post(`https://api.ecobee.com/token?grant_type=ecobeePin&code=${code}&client_id=${apiKey}&ecobee_type=jwt`);
         accessToken = xxx.data.access_token;
@@ -68,10 +68,12 @@ setTimeout(async () => {
               "dehumidifierMode": "off"
           }
       }
-    }, {headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
-    }});
+    }, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
     console.log(`code: ${res.code}`);
 
     await sleep(10 * 1000);
@@ -87,10 +89,12 @@ setTimeout(async () => {
               "dehumidifierMode": "on"
           }
       }
-    }, {headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
-    }});
+    }, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
     console.log(`code: ${res2.code}`);
 
   } catch (e) {
