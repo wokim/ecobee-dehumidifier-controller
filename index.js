@@ -47,7 +47,7 @@ setTimeout(async () => {
     console.log('Failed to refresh token...');
     console.log(e);
   }
-}, 1000 * 60 * 20);
+}, 1000 * 60 * 10);
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -76,7 +76,7 @@ setTimeout(async () => {
     });
     console.log(`code: ${res.code}`);
 
-    await sleep(10 * 1000);
+    await sleep(60 * 1000);
 
     console.log('Try to turn on dehumidifier');
     const res2 = await axios.post(`https://api.ecobee.com/1/thermostat?format=json`, {
@@ -101,4 +101,4 @@ setTimeout(async () => {
     console.log('Failed to turn off dehumidifier...');
     console.log(e);
   }
-}, 1000 * 60 * 20);
+}, 1000 * 60 * 10);
