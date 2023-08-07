@@ -12,10 +12,8 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const date = new Date();
-
 function now() {
-  return date.toLocaleString('ko-KR', {timeZone: "Asia/Seoul"});
+  return new Date().toLocaleString('ko-KR', {timeZone: "Asia/Seoul"});
 }
 
 (async () => {
