@@ -20,7 +20,7 @@ Token OK! Ready!
 ## Deploy (Developer Only)
 ```
 docker buildx create --use
-docker buildx build --platform=linux/arm/v7,linux/arm64,linux/amd64 -t ecobee-dehumidifier-controller .
+docker buildx build --platform=linux/arm/v7 --load -t ecobee-dehumidifier-controller .
 docker tag ecobee-dehumidifier-controller wokim/ecobee-dehumidifier-controller:latest
 docker tag ecobee-dehumidifier-controller wokim/ecobee-dehumidifier-controller:0.0.1
 docker push wokim/ecobee-dehumidifier-controller:latest
