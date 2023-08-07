@@ -29,7 +29,7 @@ function now() {
           accessToken = a;
           refreshToken = r;
 
-          await refreshToken();
+          await refresh();
           ready = true;
         });
       } else {
