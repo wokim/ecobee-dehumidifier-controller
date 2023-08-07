@@ -5,6 +5,7 @@ const apiKey = '0JlTruwOANBXcNJNyDidRBHPAzflRPSd';
 let accessToken = '';
 let refreshToken = '';
 let ready = false;
+let interval = 1000 * 60 * 29;
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -19,40 +20,45 @@ function now() {
 
 (async () => {
   try {
-    rl.question(`[${now()}] Do you have access/refresh token? (yes/no): `, async (answer) => {
-      if (answer.toLowerCase() === 'yes') {
-        rl.question(`[${now()}] Enter the access token and refresh token separated by a spcae:`, async (answer) => {
-          const split = answer.split(' ');
-          const [a, r] = split;
-          console.log(`Access Token: ${a}`);
-          console.log(`Refresh Token: ${r}`);
-          accessToken = a;
-          refreshToken = r;
+    rl.question('Please enter interval (min): ', async (answer) => {
+      const min = !answer ? 29 : parseInt(answer, 10);
+      interval = 1000 * 60 * min;
 
-          await refresh();
-          ready = true;
-        });
-      } else {
-        console.log(`[${now()}] Registering App. App Key is ${apiKey}`);
-        const res = await axios.get(`https://api.ecobee.com/authorize?response_type=ecobeePin&client_id=${apiKey}&scope=smartWrite`);
-
-        rl.question(`[${now()}] Your ecobee PIN is ${res.data.ecobeePin}. Have you completed the input? (yes/no): `, async (answer) => {
-          if (answer.toLowerCase() === 'yes') {
-            const code = res.data.code;
-            console.log(`[${now()}] Requesting access token...`);
-            const xxx = await axios.post(`https://api.ecobee.com/token?grant_type=ecobeePin&code=${code}&client_id=${apiKey}&ecobee_type=jwt`);
-            accessToken = xxx.data.access_token;
-            refreshToken = xxx.data.refresh_token;
+      rl.question(`[${now()}] Do you have access/refresh token? (yes/no): `, async (answer) => {
+        if (answer.toLowerCase() === 'yes') {
+          rl.question(`[${now()}] Enter the access token and refresh token separated by a spcae:`, async (answer) => {
+            const split = answer.split(' ');
+            const [a, r] = split;
+            console.log(`Access Token: ${a}`);
+            console.log(`Refresh Token: ${r}`);
+            accessToken = a;
+            refreshToken = r;
+  
+            await refresh();
             ready = true;
-            console.log(`[${now()}] Access token: ${accessToken}`);
-            console.log(`[${now()}] Refresh token: ${refreshToken}`);
-            console.log(`[${now()}] Token acquired. Ready to go!`);
-          } else {
-            console.log(`[${now()}] You must enter PIN. Terminating app...`);
-            return;
-          }
-        });
-      }
+          });
+        } else {
+          console.log(`[${now()}] Registering App. App Key is ${apiKey}`);
+          const res = await axios.get(`https://api.ecobee.com/authorize?response_type=ecobeePin&client_id=${apiKey}&scope=smartWrite`);
+  
+          rl.question(`[${now()}] Your ecobee PIN is ${res.data.ecobeePin}. Have you completed the input? (yes/no): `, async (answer) => {
+            if (answer.toLowerCase() === 'yes') {
+              const code = res.data.code;
+              console.log(`[${now()}] Requesting access token...`);
+              const xxx = await axios.post(`https://api.ecobee.com/token?grant_type=ecobeePin&code=${code}&client_id=${apiKey}&ecobee_type=jwt`);
+              accessToken = xxx.data.access_token;
+              refreshToken = xxx.data.refresh_token;
+              ready = true;
+              console.log(`[${now()}] Access token: ${accessToken}`);
+              console.log(`[${now()}] Refresh token: ${refreshToken}`);
+              console.log(`[${now()}] Token acquired. Ready to go!`);
+            } else {
+              console.log(`[${now()}] You must enter PIN. Terminating app...`);
+              return;
+            }
+          });
+        }
+      });
     });
   } catch (error) {
     console.error('Error in GET request:', error.message);
@@ -131,4 +137,4 @@ setInterval(async () => {
     console.log(`[${now()}] Failed to control dehumidifier. Terminating app...`);
     console.log(e);
   }
-}, 1000 * 60 * 29);
+}, interval);
