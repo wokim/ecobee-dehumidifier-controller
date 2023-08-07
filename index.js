@@ -22,6 +22,7 @@ function now() {
   try {
     rl.question('Please enter interval (min): ', async (answer) => {
       const min = !answer ? 29 : parseInt(answer, 10);
+      console.log(`[${now()}] ${min}min`);
       interval = 1000 * 60 * min;
 
       rl.question(`[${now()}] Do you have access/refresh token? (yes/no): `, async (answer) => {
