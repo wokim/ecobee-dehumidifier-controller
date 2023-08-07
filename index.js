@@ -59,7 +59,7 @@ function now() {
   }
 })();
 
-async function refreshToken() {
+async function refresh() {
   try {
     console.log(`[${now()}] Try to refresh token`);
     const res = await axios.post(`https://api.ecobee.com/token?grant_type=refresh_token&refresh_token=${refreshToken}&client_id=${apiKey}&ecobee_type=jwt`);
@@ -75,7 +75,7 @@ async function refreshToken() {
 setInterval(async () => {
   if (!ready) return;
 
-  await refreshToken();
+  await refresh();
 }, 1000 * 60 * 40);
 
 function sleep(ms) {
